@@ -1,0 +1,22 @@
+function calculateTeamPoints(teamNumber) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Data");
+  const dataRange = sheet.getDataRange().getValues(); // Fetch all data
+  let totalPoints = 0;
+
+  // Define column indices (adjust these as needed based on your data layout)
+  const teamColumns = [1, 2, 3, 4]; // Red 1, Red 2, Blue 1, Blue 2 (2nd-5th columns)
+  const scoreColumns = [9, 10, 11, 12]; // Corresponding score columns (10th-13th columns)
+
+  // Loop through rows of data
+  for (let i = 1; i < dataRange.length; i++) { // Start at 1 to skip the header
+    for (let j = 0; j < teamColumns.length; j++) {
+      // Check if the team number matches in any team column
+      if (dataRange[i][teamColumns[j]] == teamNumber) {
+        // Add the corresponding score value
+        totalPoints += parseFloat(dataRange[i][scoreColumns[j]]) || 0;
+      }
+    }
+  }
+
+  return totalPoints;
+}
